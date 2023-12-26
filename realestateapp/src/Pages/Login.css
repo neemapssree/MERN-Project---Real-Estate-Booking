@@ -1,0 +1,11 @@
+body { background-color: #04004d !important; color: #fff !important; }
+.loginSec { height: 100vh;}
+.loginBg { background-image: url('../Assets/uae.webp'); background-size: cover; background-repeat: no-repeat;}
+.customInput { border-color: #fff !important; background-color: transparent !important; color: #fff !important; }
+input.customInput::placeholder {
+    color: #d0cccc; /* Change this color to your desired placeholder color */
+  }
+select option {
+    background: #03004a;
+}
+.errors { color: red; font-size: 12px;}

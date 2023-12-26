@@ -21,7 +21,12 @@ const Loginbox = ({setBoxName}) => {
     try{      
       if(loginData.email && loginData.password) {
         axios.post(`${BASE_URL}/auth/login`,loginData).then((res)=>{
-          
+          if(res.data.message==="User not found"){
+            toast.warning('User not found');            
+          }
+          if(res.data.message==="Logged in successfully"){
+            toast.success('Logged in successfully');            
+          }
         });
       }else{
         toast.error('Credentials not filled');

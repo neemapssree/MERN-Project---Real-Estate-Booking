@@ -4,7 +4,7 @@ import { BASE_URL } from '../Constants/constants';
 import { toast } from 'react-toastify';
 
 
-const Signupbox = ({setBoxName}) => {
+const SignupBox = ({setBoxName}) => {
 
   const [signUpData,setSignUpData] = useState(
     {
@@ -137,4 +137,4 @@ const Signupbox = ({setBoxName}) => {
   )
 }
 
-export default Signupbox
+export default SignupBox

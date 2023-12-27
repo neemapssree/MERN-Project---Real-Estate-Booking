@@ -1,4 +1,4 @@
-body { background-color: #04004d !important; color: #fff !important; }
+.blueCol { background-color: #04004d; color: #fff !important; }
 .loginSec { height: 100vh;}
 .loginBg { background-image: url('../Assets/uae.webp'); background-size: cover; background-repeat: no-repeat;}
 .customInput { border-color: #fff !important; background-color: transparent !important; color: #fff !important; }

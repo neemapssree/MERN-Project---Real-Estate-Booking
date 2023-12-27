@@ -1,3 +1,5 @@
+body {background-color: #fff !important;}
+
 .btn.primaryBtn {
   background-color: #fe4d00;
   color: #fff;
@@ -8,3 +10,8 @@
   color: #fe4d00;
   border: 1px solid #fe4d00;
 }/*# sourceMappingURL=main.css.map */
+
+.bannerHome, .addPropertyRow .navbar-light { background-color: #a5dbef;}
+.navbar-brand.logoImg  { background-color: #fff; padding: 10px 15px 30px 15px;}
+
+form .inputGroup { display: flex; flex-direction: row; gap: 15px;}

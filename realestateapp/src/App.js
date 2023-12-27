@@ -1,4 +1,6 @@
 import './App.css';
+import AddProperty from './Pages/AddProperty';
+import Home from './Pages/Home';
 import Login from './Pages/Login';
 import './main.css';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
@@ -10,7 +12,9 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Login />}></Route>
+          <Route path='/login' element={<Login />}></Route>
+          <Route path='/home' element={<Home />}></Route>
+          <Route path='/add-property' element={<AddProperty />}></Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer />

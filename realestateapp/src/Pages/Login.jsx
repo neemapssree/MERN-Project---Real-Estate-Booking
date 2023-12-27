@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import Loginbox from './Loginbox';
-import Signupbox from './Signupbox';
+import Signupbox from './SignupBox';
 
 const Login = () => {
   const [boxName, setBoxName] = useState();
@@ -21,7 +21,7 @@ const Login = () => {
     <div className=''>
       <div className='container-fluid'>
         <div className='row align-items-center justify-content-center loginSec'>
-          <div className='col-md-6 h-100 d-flex flex-column justify-content-center px-5 text-center'>
+          <div className='col-md-6 h-100 d-flex flex-column justify-content-center px-5 text-center blueCol'>
 
             {!buttonsClicked && (
               <>

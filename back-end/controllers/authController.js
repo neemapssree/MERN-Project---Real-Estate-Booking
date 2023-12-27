@@ -37,11 +37,13 @@ const doLogin = async (req,res) => {
                 console.log('Password correct - step 4');
                 const token = jwt.sign({userId:user._id,name:user.name,email:user.email,role:user?.role},process.env.JWT_PASSWORD ?? "realestateapp",{expiresIn:'2d'});
                 console.log(process.env.JWT_PASSWORD);
-                console.log('Token value:', token, );
+                //console.log('Token value:', token, );
                 res.status(200).json({message:'Logged in successfully',token:token});
             }
-        });
-        
+            else{                
+                res.status(200).json({message:'Enter the correct password',token:null});
+            }
+        });        
 
     }else {
         res.status(200).json({message:'User not found',token:null});

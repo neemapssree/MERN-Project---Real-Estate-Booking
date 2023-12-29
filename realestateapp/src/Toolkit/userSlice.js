@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const INITIAL_STATE = {
-    userDetails:{},
+    userDetails:JSON.parse(localStorage.getItem('user')) ?? {},    //to set the initial states from local storage when page refresh
 }
 
 const generalSlice = createSlice({                      //Similar as [state, setState]=useState(); method

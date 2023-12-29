@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import AxiosInstance from '../Config/AxiosInstance';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const AddPropertyForm = () => {
 
@@ -11,6 +13,7 @@ const AddPropertyForm = () => {
         propaddress:'',
     });
 
+    const navigate = useNavigate();
     const [propImg, setPropImg] = useState('');
     
    const [selectedImage, setSelectedImage] = useState('');
@@ -28,9 +31,13 @@ const AddPropertyForm = () => {
     const addProperty = () => {            
         let fileData = new FormData();                            //changing the data into formdata format
         fileData.append('image', propImg);
-        AxiosInstance.post('/admin/addProperty',fileData,{params:formValue},{Headers:{"Content-Type" : 'multipart/form-data'}}).then((response) => {
-
-        }).catch((err) => console.log(err))
+        AxiosInstance.post('/admin/addProperty',fileData,{params:formValue},{headers:{"Content-Type" : 'multipart/form-data'}}).then((res) => {
+            toast.success('Property added');
+            navigate('/home');
+        }).catch((err) => {
+            console.log(err);
+            toast.error('Property couldn\'t be Added');
+        })
         
      }
 
@@ -71,7 +78,9 @@ const AddPropertyForm = () => {
         <div className="col-12">
             <label htmlFor="propimage" className='my-3'>Property Featured Image</label>
             <input type="file" onChange={addFileData} className="form-control" id="propimage" name="propimage" placeholder="Upload Property Featured Image" />
+            {selectedImage && <img src={selectedImage} style={{height: 'auto',width: '300px', marginTop:'30px'}}></img>}
         </div>
+        
         {/* <div className="col-12">    
             <label className='my-3'>Budget</label>
             <div className='inputGroup'>
@@ -83,8 +92,7 @@ const AddPropertyForm = () => {
             <button type="submit" className="btn primaryBtn mt-4" onClick={addProperty}>Submit</button>
             <button type="reset" className="btn btn-primary mt-4">Reset</button>
         </div>
-        </form>
-        {/* {selectedImage && <img src={selectedImage} style={{height: '100px',width: '100px'}}></img>} */}
+        </form>        
     </div>
     
   )

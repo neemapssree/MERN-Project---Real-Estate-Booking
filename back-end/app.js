@@ -9,7 +9,7 @@ require('dotenv').config;
 
 
 var indexRouter = require('./routes/index');
-////var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/userRouter');
 const authRouter = require('./routes/authRouter');
 const adminRouter = require('./routes/adminRouter');
 
@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-//app.use('/users', usersRouter);
+app.use('/user', usersRouter);
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 

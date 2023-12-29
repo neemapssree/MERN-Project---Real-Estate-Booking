@@ -3,15 +3,16 @@ const mongoose = require('mongoose');
 const propSchema = new mongoose.Schema({
     propname:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     state:{
         type:String,
-        required:false
+        required:true
     },
     type:{
         type:String,
-        required:false
+        required:true
     },
     propcount:{
         type:Number,

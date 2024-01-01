@@ -11,8 +11,16 @@ body {background-color: #fff !important;}
   border: 1px solid #fe4d00;
 }/*# sourceMappingURL=main.css.map */
 
-.bannerHome, .addPropertyRow .navbar-light { background-color: #a5dbef;}
+.bannerHome, .navbar-light { background-color: #a5dbef;}
 .navbar-brand.logoImg  { background-color: #fff; padding: 10px 15px 30px 15px;}
 
 form .inputGroup { display: flex; flex-direction: row; gap: 15px;}
 .propsCard .card-img-top { height: 300px;}
+
+.singleProp { position: relative; background-size: cover; background-repeat: no-repeat; height: 500px; backdrop-filter: #00000085;}
+.singleProp::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.307));  z-index: 1; }
+  .bannerText { z-index: 100000;}  
+  .propDetails { gap: 30px; background-color: #fff; width: max-content !important; margin-top: -50px !important; 
+    z-index: 1000; box-shadow: 0px 5px 5px #ddd; border-radius: 15px;  }
+  

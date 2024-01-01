@@ -28,7 +28,9 @@ const userSchema = new mongoose.Schema({
         type:Number,
         required:true,
         default:3
-    }    
+    }   
+    //user - 3
+    // admin - 1 
 });
 
 const users = mongoose.model("users", userSchema);

@@ -1,5 +1,6 @@
 import './App.css';
 import AddProperty from './Pages/AddProperty';
+import PropUserView from './Pages/PropUserView';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import './main.css';
@@ -15,6 +16,7 @@ function App() {
           <Route path='/' element={<Login />}></Route>
           <Route path='/home' element={<Home />}></Route>
           <Route path='/add-property' element={<AddProperty />}></Route>
+          <Route path='/view-prop/:id' element={<PropUserView />}></Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer />

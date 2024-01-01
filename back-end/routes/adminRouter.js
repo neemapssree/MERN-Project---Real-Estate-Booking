@@ -3,6 +3,7 @@ var router = express.Router();
 const { addProperty } = require('../controllers/adminController');
 
 const multer = require('multer');
+const { adminAuth } = require('../middlewares/authorization');
 
 const fileStorage = multer.diskStorage({
     destination:(req,file,cb)=> {        
@@ -17,6 +18,6 @@ const fileStorage = multer.diskStorage({
 
 const upload = multer({storage:fileStorage});
 
-router.post('/addProperty', upload.single('image'), addProperty);      // before devaiting to addProeprty, will modify the image file using multer
+router.post('/addProperty',adminAuth,upload.single('image'), addProperty);      // before devaiting to addProeprty, will modify the image file using multer
 
 module.exports=router;

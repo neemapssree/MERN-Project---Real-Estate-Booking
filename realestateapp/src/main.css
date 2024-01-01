@@ -21,6 +21,7 @@ form .inputGroup { display: flex; flex-direction: row; gap: 15px;}
 .singleProp::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.307));  z-index: 1; }
   .bannerText { z-index: 100000;}  
-  .propDetails { gap: 30px; background-color: #fff; width: max-content !important; margin-top: -50px !important; 
+  .propDetails { gap: 80px; background-color: #fff; width: max-content !important; margin-top: -50px !important; 
     z-index: 1000; box-shadow: 0px 5px 5px #ddd; border-radius: 15px;  }
+    .modalShow.modal.show { z-index: 99999999;}
   

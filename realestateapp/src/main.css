@@ -24,4 +24,10 @@ form .inputGroup { display: flex; flex-direction: row; gap: 15px;}
   .propDetails { gap: 80px; background-color: #fff; width: max-content !important; margin-top: -50px !important; 
     z-index: 1000; box-shadow: 0px 5px 5px #ddd; border-radius: 15px;  }
     .modalShow.modal.show { z-index: 99999999;}
+
+    .cus-dropDown { position: relative; border:1px solid #000;padding: 10px;}
+    .cus-options{position: absolute;   border: 1px solid #000;    background: #fff; height: 150px; overflow-y: scroll;}
+      .cus-options li { list-style-type: none; border-bottom: 1px solid #ddd; padding:10px; width: 175px;}
+      .cus-options li:last-child { border-bottom: 0px;}
+      .cus-options ul { padding-left: 0px; text-align: center; display: flex; max-width: 350px; flex-wrap: wrap;}
   

@@ -1,28 +1,58 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AxiosInstance from '../Config/AxiosInstance';
-import { BASE_URL } from '../Constants/constants';
+import { BASE_URL, TIMINGS } from '../Constants/constants';
 import ModalView from './ModalView';
-import moment from 'moment';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Select from 'react-select';
 
 const PropBooking = () => {
   const {id}=useParams()
   const[singlePropData, setSinglePropData] = useState({});
   const[showModal, setShowModal]= useState();
-  const[timeSlotData, setTimeSlotData] = useState({startDate:'', endDate:''});  
+  const[dateSlotData, setDateSlotData] = useState({startDate:'', endDate:''});  
+  const[dropDownShow,setDropDownShow] = useState(false);    //time drop Down
+  const[selectedTimings,setSelectedTimings] = useState([]);
+  const[filterTimes, setFilterTimes] = useState();
 
+  useEffect(()=> {
+    getLatestFilterSlots();
+  },[selectedTimings]);   //Dependent on the SelectedTimings changes
 
   useEffect(()=> {
     getSinglePropData();
   },[]);
 
+  const getLatestFilterSlots = () => {
+    if(selectedTimings.length===0){
+      setFilterTimes(TIMINGS);
+    }else {
+      const tempArray = [];
+      for(let slot of TIMINGS){
+        let flag = false;
+        for(let Sslot of selectedTimings){
+          if(slot.id === Sslot.id){
+            flag=true;
+          }
+        }
+        if(!flag) {
+          tempArray.push(slot);
+        }
+      }
+      setFilterTimes(tempArray);
+    }
+  }
+  
+  const removeSelectedTiming = (index) => {
+    const updatedSelectedTiming = [...selectedTimings];
+    updatedSelectedTiming.splice(index,1);
+    setSelectedTimings(updatedSelectedTiming);
+  }
+
   const getSinglePropData = () => {
     AxiosInstance.get('/user/single-prop',{params:{propId:id}}).then((res) => {
         // console.log(res);
-        setSinglePropData(res.data);
-        
+        setSinglePropData(res.data);        
        
     }).catch((error) => {
         console.log(error);
@@ -30,8 +60,8 @@ const PropBooking = () => {
   }
 
   const handleChangeDate = (e) => {
-    setTimeSlotData({...timeSlotData,[e.target.name]:e.target.value});
-    console.log(timeSlotData);
+    setDateSlotData({...dateSlotData,[e.target.name]:e.target.value});
+    console.log(dateSlotData);
   }
 
   return (
@@ -62,10 +92,37 @@ const PropBooking = () => {
         </div>        
     </div>
     <ModalView showModal={showModal} setShowModal={setShowModal} propname={singlePropData.propname}>
-      <p>Select Start Date</p>
-      <input type='date' value={timeSlotData.startDate} name='startDate' onChange={handleChangeDate} />
-      <p>Select End Date</p>
-      <input type='date' value={timeSlotData.endDate} name='endDate' onChange={handleChangeDate}  />
+      <p className='fw-bold'>Select Start Date</p>
+      <input type='date' value={dateSlotData.startDate} name='startDate' onChange={handleChangeDate} />
+      <p className='mt-3 fw-bold'>Select End Date</p>
+      <input type='date' value={dateSlotData.endDate} name='endDate' onChange={handleChangeDate}  />
+      <p className='mt-3 fw-bold'>Add Time Slots</p>
+      <div className='cus-dropDown' onClick={()=>setDropDownShow(true)}>
+        Select Timings
+        {dropDownShow && (
+          <div className='cus-options' onMouseLeave={() => setDropDownShow(false)}>
+            <ul>
+            {filterTimes.map((element, index)=>(
+              <li onClick={(e)=>setSelectedTimings([...selectedTimings,element])}>{element.name}</li>              
+            ))}
+            </ul>
+          </div>
+        )}
+      </div>
+      <div className=''>
+        {selectedTimings.length>0 ? (
+          selectedTimings.map((element,index) => (
+            <span  key={index} style={{margin:'5px',padding:'10px', border:'1px solid #000', borderRadius:'10px', backgroundColor:'#a5dbef'}}>
+              {element.name}
+              <button onClick={() => removeSelectedTiming(index)}>X</button>
+            </span> 
+          ))
+          ) : (
+          <span>No selected timings</span>
+        )}
+      </div>                                            
+
+      <input type='submit' className='btn primaryBtn mt-4' value="Submit" />
     </ModalView>
     
     </>

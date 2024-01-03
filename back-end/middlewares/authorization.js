@@ -23,17 +23,17 @@ const adminAuth = (req,res,next) => {
     try{
         //console.log(req.headers)
         const token = req.headers["authorization"].split(' ')[1];
-        jwt.verify(token,'realestateapp',(err,decodedToken)=> {
+        jwt.verify(token,'realestateapp',(err,decodedToken)=> {            
             if(decodedToken && decodedToken.role===1){
                 req.userId = decodedToken.userId
                 next()
             }else {
-                res.status(401).json({message:'unauthorized admin'})
+                res.status(401).json({message:'unauthorized admin...'})
             }
 
         })
     }catch(error){
-        console.log(error);
+        console.log("Error is", error);
         res.status(401).json({message:'unauthorized admin'})
     }
 }

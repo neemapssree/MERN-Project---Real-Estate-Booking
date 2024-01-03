@@ -8,11 +8,14 @@ import Select from 'react-select';
 
 const PropBooking = () => {
   const {id}=useParams()
-  const[singlePropData, setSinglePropData] = useState({});
+  const[singlePropData, setSinglePropData] = useState({});   //object 
   const[showModal, setShowModal]= useState();
-  const[dateSlotData, setDateSlotData] = useState({startDate:'', endDate:''});  
+  const[dateSlotData, setDateSlotData] = useState({
+    startDate:'', 
+    endDate:''
+  });  
   const[dropDownShow,setDropDownShow] = useState(false);    //time drop Down
-  const[selectedTimings,setSelectedTimings] = useState([]);
+  const[selectedTimings,setSelectedTimings] = useState([]);      //Array
   const[filterTimes, setFilterTimes] = useState();
 
   useEffect(()=> {
@@ -47,6 +50,16 @@ const PropBooking = () => {
     const updatedSelectedTiming = [...selectedTimings];
     updatedSelectedTiming.splice(index,1);
     setSelectedTimings(updatedSelectedTiming);
+  }
+
+  const createTimeSlot = () => {
+    try{
+      AxiosInstance.post('/admin/addTimeSlotData', {...dateSlotData,selectedTimings,propId:id}).then((res) => {
+        
+      })
+    }catch(err){
+
+    }
   }
 
   const getSinglePropData = () => {
@@ -91,6 +104,8 @@ const PropBooking = () => {
             </div>
         </div>        
     </div>
+
+    {/* Admin only */}
     <ModalView showModal={showModal} setShowModal={setShowModal} propname={singlePropData.propname}>
       <p className='fw-bold'>Select Start Date</p>
       <input type='date' value={dateSlotData.startDate} name='startDate' onChange={handleChangeDate} />
@@ -122,8 +137,9 @@ const PropBooking = () => {
         )}
       </div>                                            
 
-      <input type='submit' className='btn primaryBtn mt-4' value="Submit" />
+      <input type='submit' className='btn primaryBtn mt-4' value="Submit" onClick={createTimeSlot} />
     </ModalView>
+    {/*End of Admin only */}
     
     </>
   )

@@ -14,7 +14,7 @@ const addProperty = async (req,res) => {
             propImg:req.file.filename}).save()
             res.status(200).json('Property added successfully');
         }catch (error) {
-            res.status(500).json('Error adding property');
+            res.status(500).json(error);
         }
     };
 

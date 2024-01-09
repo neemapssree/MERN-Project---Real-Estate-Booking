@@ -9,7 +9,29 @@ body {background-color: #fff !important;}
   background-color: #fff;
   color: #fe4d00;
   border: 1px solid #fe4d00;
-}/*# sourceMappingURL=main.css.map */
+}
+
+.btn.secondBtn {
+  background-color: #04004d;
+  color: #fff;
+}
+
+.btn.secondBtn:hover {
+  background-color: #fff;
+  color: #04004d;
+  border: 1px solid #04004d;
+}
+.btn.nullBtn {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.btn.nullBtn:hover {
+  background-color: #fff;
+  color: #04004d;
+  border: 1px solid #04004d;
+}
 
 .bannerHome, .navbar-light { background-color: #a5dbef;}
 .navbar-brand.logoImg  { background-color: #fff; padding: 10px 15px 30px 15px;}
@@ -30,4 +52,27 @@ form .inputGroup { display: flex; flex-direction: row; gap: 15px;}
       .cus-options li { list-style-type: none; border-bottom: 1px solid #ddd; padding:10px; width: 175px;}
       .cus-options li:last-child { border-bottom: 0px;}
       .cus-options ul { padding-left: 0px; text-align: center; display: flex; max-width: 350px; flex-wrap: wrap;}
+      .selectedTimes { display: flex; flex-wrap: wrap; justify-content: space-between;}
+      .selectedTimes span { line-height: 2;width: 30%; padding: 5px;}
+      .selectedTimes span button {line-height: 1.2; margin-left: 2px;}
+      .addPropertyRow select option { color: #fff;} 
+      input.dateStyle {background: transparent;  border: 2px solid #fff;  color: #fff;  text-align: center; border-radius: 8px;  }
+      input.dateStyle::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
+    .slotView {display: flex;flex-wrap: wrap; gap:10px;}
+    .slotView>span {border: 1px dashed #fe4d00; border-radius: 5px; padding: 10px; background:transparent ; color: #fff;}
+    .modalProp { background-size: cover; background-repeat: no-repeat;}
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      /*# sourceMappingURL=main.css.map */
   

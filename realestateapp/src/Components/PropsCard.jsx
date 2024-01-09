@@ -3,7 +3,8 @@ import { BASE_URL } from '../Constants/constants'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 const PropsCard = ({data}) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
+  // const imageUrl = `${BASE_URL}/properties/${decodeURIComponent(data.propImg)}`; 
   return (
     <div className='col-md-4'>
       <div className="card propsCard" onClick={()=>navigate(`/view-prop/${data._id}`)}>

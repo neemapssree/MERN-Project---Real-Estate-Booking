@@ -1,22 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AxiosInstance from '../Config/AxiosInstance';
-import { BASE_URL, TIMINGS } from '../Constants/constants';
+import { BASE_URL, BOOKING_CHARGE, TIMINGS } from '../Constants/constants';
 import ModalView from './ModalView';
 import "react-datepicker/dist/react-datepicker.css";
-import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 const PropBooking = () => {
   const {id}=useParams()
   const[singlePropData, setSinglePropData] = useState({});   //object 
   const[showModal, setShowModal]= useState();
+  const[todayDate, setTodayDate]= useState();
+  const[tomorrowDate, setTomorrowDate]= useState();
   const[dateSlotData, setDateSlotData] = useState({
     startDate:'', 
     endDate:''
   });  
   const[dropDownShow,setDropDownShow] = useState(false);    //time drop Down
   const[selectedTimings,setSelectedTimings] = useState([]);      //Array
-  const[filterTimes, setFilterTimes] = useState();
+  const[filterTimes, setFilterTimes] = useState(TIMINGS);
+  const[inputDate, setInputDate] = useState();
+  const[displaySlotData, setDisplaySlotData]=useState([]);
+  const[bookingModal,setBookingModal]=useState(false);
+  const[selectedSlot, setSelectedSlot]=useState(null);
+
+  const getTodayDate = () => {
+    const today = new Date();
+    const tommorow = new Date();
+    tommorow.setDate(today.getDate()+1);
+    const formattedDate = today.toISOString().split('T')[0];
+    const formattedTomorrowDate = tommorow.toISOString().split('T')[0];
+    setTodayDate(formattedDate);  
+    setTomorrowDate(formattedTomorrowDate);    
+  };  
 
   useEffect(()=> {
     getLatestFilterSlots();
@@ -24,7 +40,18 @@ const PropBooking = () => {
 
   useEffect(()=> {
     getSinglePropData();
+    getTodayDate();
+    getTimeSlotData(new Date());    
   },[]);
+
+  const getTimeSlotData = (date=new Date()) => {
+    AxiosInstance.get('/user/dayWiseTimeSlot',{params:{propId:id,date:date}}).then((res)=>{
+      setDisplaySlotData(res.data);
+      
+    }).catch((err)=>{
+
+    });
+  }
 
   const getLatestFilterSlots = () => {
     if(selectedTimings.length===0){
@@ -55,7 +82,13 @@ const PropBooking = () => {
   const createTimeSlot = () => {
     try{
       AxiosInstance.post('/admin/addTimeSlotData', {...dateSlotData,selectedTimings,propId:id}).then((res) => {
-        
+        setShowModal(false);
+        setDateSlotData({
+          startDate:'', 
+          endDate:''
+        });
+        setSelectedTimings([]);
+        toast.success("Slot added successfully");        
       })
     }catch(err){
 
@@ -105,12 +138,47 @@ const PropBooking = () => {
         </div>        
     </div>
 
+    <div className='container-fluid'>         
+      <div className='w-50 mx-auto my-5 px-5 pt-3 pb-5' style={{border:"2px solid #000",borderRadius:"20px",background:"#04004d"}}>
+        <h2 className='mb-5 text-light'>View Available Slots</h2>
+        <div className='d-flex mb-4' style={{gap:"30px"}}>
+          <button className='btn nullBtn w-50' onClick={()=>getTimeSlotData(todayDate)}>Get Today's Slots</button>
+          <button className='btn nullBtn w-50' onClick={()=>getTimeSlotData(tomorrowDate)}>Get Tomorrow's Slots</button>
+        </div>
+        <h5 className='mt-5 mb-4 text-light'>Get Day Wise Time Slots</h5>
+        <div className='d-flex mb-4' style={{gap:"30px"}}>
+          <input type="text" className="w-50 dateStyle" placeholder="Select a Date"  value={inputDate} onChange={(e)=>setInputDate(e.target.value)} onFocus={(e)=>(e.target.type="date")} onBlur={(e)=>(e.target.type="text")}/>
+          <button className="btn btn-light w-50" onClick={()=>inputDate && getTimeSlotData(new Date(inputDate))}>Search Time Slots</button>
+        </div>
+        <div className='slotView mt-5'>
+          { displaySlotData.map((slot)=><span className={'slots'} key={slot.id} onClick={()=>{setBookingModal(true);setSelectedSlot(slot)}}>{slot.slot.name}</span> ) }
+        </div>
+        {/* {displaySlotData && displaySlotData.length > 0 && (
+          <button className="btn primaryBtn mt-4">Book Now</button>   //show button only if theres slots
+        )} */}
+      </div>
+    </div>
+
+    {/* Booking Modal */}
+    <ModalView showModal={bookingModal} setShowModal={setBookingModal} propname={singlePropData.propname} title={"Book Viewing for"}>
+      <div className='modalProp mb-3' style={{backgroundImage:`URL(${BASE_URL}/properties/${selectedSlot?.property?.propImg})`,height:"250px",width:"100%"}}></div>    
+          <div><strong>Property Name:</strong> {selectedSlot?.property?.propname}</div>          
+          <div><strong>State:</strong> {selectedSlot?.property?.state}</div>
+          <div><strong>Location:</strong> {selectedSlot?.property?.propaddress}</div>
+          <div><strong>Date:</strong> {new Date(selectedSlot?.date).toString().slice(0,15)}</div>
+          <div><strong>Time:</strong> {selectedSlot?.slot?.name}</div>
+          <div><strong>Booking Charge:</strong> {BOOKING_CHARGE} AED</div>
+          <button className="btn primaryBtn mt-4">Book Now</button>
+    </ModalView>
+  
+
     {/* Admin only */}
-    <ModalView showModal={showModal} setShowModal={setShowModal} propname={singlePropData.propname}>
+    <ModalView showModal={showModal} setShowModal={setShowModal} propname={singlePropData.propname} title={"Set Time Slots for Viewing"}>
+      
       <p className='fw-bold'>Select Start Date</p>
-      <input type='date' value={dateSlotData.startDate} name='startDate' onChange={handleChangeDate} />
+      <input type='date' value={dateSlotData.startDate} min={todayDate} name='startDate' onChange={handleChangeDate} />
       <p className='mt-3 fw-bold'>Select End Date</p>
-      <input type='date' value={dateSlotData.endDate} name='endDate' onChange={handleChangeDate}  />
+      <input type='date' value={dateSlotData.endDate} min={dateSlotData.startDate} name='endDate' onChange={handleChangeDate}  />
       <p className='mt-3 fw-bold'>Add Time Slots</p>
       <div className='cus-dropDown' onClick={()=>setDropDownShow(true)}>
         Select Timings
@@ -124,7 +192,7 @@ const PropBooking = () => {
           </div>
         )}
       </div>
-      <div className=''>
+      <div className='selectedTimes'>
         {selectedTimings.length>0 ? (
           selectedTimings.map((element,index) => (
             <span  key={index} style={{margin:'5px',padding:'10px', border:'1px solid #000', borderRadius:'10px', backgroundColor:'#a5dbef'}}>
@@ -133,7 +201,7 @@ const PropBooking = () => {
             </span> 
           ))
           ) : (
-          <span>No selected timings</span>
+          <span className='w-100'>No selected timings</span>
         )}
       </div>                                            
 

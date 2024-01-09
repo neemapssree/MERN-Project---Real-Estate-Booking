@@ -10,7 +10,10 @@ const fileStorage = multer.diskStorage({
         cb(null,'public/properties')
     },
     filename:(req,file,cb)=>{
-        cb(null,Date.now()+"-"+file.originalname)        
+        const originalname = file.originalname;
+        // Replace spaces with hyphens in the file name
+        const updatedfilename = originalname.replace(/\s+/g, '-');
+        cb(null,Date.now()+"-"+updatedfilename)        
         // cb(null, file.originalname)
     }
 })

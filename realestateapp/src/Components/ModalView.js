@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from 'react-bootstrap/Modal';
 
 
-const ModalView = ({children, setShowModal,showModal,propname}) => {
+const ModalView = ({children, setShowModal,setBookingModal,showModal,propname,title}) => {
   
   
   
@@ -11,10 +11,10 @@ const ModalView = ({children, setShowModal,showModal,propname}) => {
   return (
     <Modal show={showModal} onHide={closeModal} className='modalShow'>
         <Modal.Header closeButton>
-          <Modal.Title>Set Time Slots for Viewing {propname}</Modal.Title>
+          <Modal.Title>{title} {propname}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>        
-      </Modal>
+    </Modal>
   )
 }
 
